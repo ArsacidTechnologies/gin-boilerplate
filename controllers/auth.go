@@ -12,25 +12,25 @@ import (
 	jwt "github.com/golang-jwt/jwt/v4"
 )
 
-//AuthController ...
+// AuthController ...
 type AuthController struct{}
 
 var authModel = new(models.AuthModel)
 
-//TokenValid ...
+// TokenValid ...
 func (ctl AuthController) TokenValid(c *gin.Context) {
 
 	tokenAuth, err := authModel.ExtractTokenMetadata(c.Request)
 	if err != nil {
 		//Token either expired or not valid
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "Please login first"})
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "Please login first2"})
 		return
 	}
 
 	userID, err := authModel.FetchAuth(tokenAuth)
 	if err != nil {
 		//Token does not exists in Redis (User logged out or expired)
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "Please login first"})
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "Please login first1"})
 		return
 	}
 
@@ -38,7 +38,7 @@ func (ctl AuthController) TokenValid(c *gin.Context) {
 	c.Set("userID", userID)
 }
 
-//Refresh ...
+// Refresh ...
 func (ctl AuthController) Refresh(c *gin.Context) {
 	var tokenForm forms.Token
 
